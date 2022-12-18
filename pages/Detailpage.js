@@ -4,11 +4,7 @@ import * as Linking from 'expo-linking';
 
 export default function DetailPage({navigation,route}) {
 		
-//초기 컴포넌트의 상태값을 설정
-//state, setState 뿐 아니라 이름을 마음대로 지정할 수 있음!
 
-//SetTip은 디테일페이지에서 사용할 상태데이터를 보기위해 사용
-//앱화면은 실행된후에 useEffect가 그려짐
 //하단의 초기데이터가없으면 state상태값이없어서 에러가남 
 //초기데이터를 세팅해줌으로써 데이터가 없을때 일어날 에러를 방지함 
         const [tip, setTip] = useState({

@@ -1,20 +1,28 @@
 import React,{useState,useEffect} from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, Alert} from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView} from 'react-native';
 
-const main = 'https://firebasestorage.googleapis.com/v0/b/skytips-5d4bd.appspot.com/o/MyPhoto_1102.jpg?alt=media&token=39846157-c6fd-4823-a394-9c040f1ae40a'
+const main = 'https://firebasestorage.googleapis.com/v0/b/skytip-m.appspot.com/o/MyPhoto_1102.jpg?alt=media&token=81923a31-919e-4fa8-923e-6d6d661bdcd0'
 import data from '../data.json';
 import Card from '../Component/Card';
 import Loading from '../Component/Loading';
 import { StatusBar } from 'expo-status-bar';
 import * as Location from "expo-location";
+import axios from "axios"
 
 export default function MainPage({navigation,route}) {
+  //useState 사용법
 	//[state,setState] 에서 state는 이 컴포넌트에서 관리될 상태 데이터를 담고 있는 변수
   //setState는 state를 변경시킬때 사용해야하는 함수
 
+  //모두 다 useState가 선물해줌
   //useState()안에 전달되는 값은 state 초기값
   const [state,setState] = useState([])
   const [cateState,setCateState] = useState([])
+  //날씨 데이터 상태관리 상태 생성!
+  const [weather, setWeather] = useState({
+    temp : 0,
+    condition : ''
+  })
 
 	//하단의 return 문이 실행되어 화면이 그려진다음 실행되는 useEffect 함수
   //내부에서 data.json으로 부터 가져온 데이터를 state 상태에 담고 있음
@@ -23,8 +31,11 @@ export default function MainPage({navigation,route}) {
   useEffect(()=>{
     navigation.setOptions({
       title:'Skys secret chamber'
-  })  
+    })  
+		//뒤의 1000 숫자는 1초를 뜻함
+    //1초 뒤에 실행되는 코드들이 담겨 있는 함수
     setTimeout(()=>{
+        //헤더의 타이틀 변경
         getLocation()
         setState(data.tip)
         setCateState(data.tip)
@@ -34,22 +45,39 @@ export default function MainPage({navigation,route}) {
     
   },[])
 
-  // 1) 외부 API 작업과 
-  // 2) 앱이 아닌 휴대폰 자체 기능(위치 정보 권한 물어보기 등)을 
-  
-  // 사용할 땐 async / await를 사용한다 
-
-  const getLocation = async()=>{
-    // try{} 부분엔 API요청 같은 작업 코드를
-    // catch{} 부분엔 에러가 발생 했을 때 실행 할 코드를 작성합니다.
-    try{
-      await Location.requestForegroundPermissionsAsync()
-      const locationData = await Location.getCurrentPositionAsync()
+  const getLocation = async () => {
+    //수많은 로직중에 에러가 발생하면
+    //해당 에러를 포착하여 로직을 멈추고,에러를 해결하기 위한 catch 영역 로직이 실행
+    try {
+      //자바스크립트 함수의 실행순서를 고정하기 위해 쓰는 async,await
+      await Location.requestForegroundPermissionsAsync();
+      const locationData= await Location.getCurrentPositionAsync();
       console.log(locationData)
-      //현재위치를 받아와서 확인차 콘솔로 내보낸다
-    }catch(error){
-      Alert.alert("현재 위치를 찾을 수 없습니다","종료 후 다시 실행해주세요")
+      console.log(locationData['coords']['latitude'])
+      console.log(locationData['coords']['longitude'])
+      const latitude = locationData['coords']['latitude']
+      const longitude = locationData['coords']['longitude']
+      const API_KEY = "cfc258c75e1da2149c33daffd07a911d";
+      const result = await axios.get(
+        `http://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric`
+      );
 
+      console.log(result)
+      const temp = result.data.main.temp; 
+      const condition = result.data.weather[0].main
+      
+      console.log(temp)
+      console.log(condition)
+
+      //오랜만에 복습해보는 객체 리터럴 방식으로 딕셔너리 구성하기!!
+      //잘 기억이 안난다면 1주차 강의 6-5를 다시 복습해보세요!
+      setWeather({
+        temp,condition
+      })
+
+    } catch (error) {
+      //혹시나 위치를 못가져올 경우를 대비해서, 안내를 준비합니다
+      Alert.alert("위치를 찾을 수 없습니다.", "앱을 다시 실행해주세요");
     }
   }
 
@@ -71,25 +99,24 @@ export default function MainPage({navigation,route}) {
   //return 구문 밖에서는 슬래시 두개 방식으로 주석
   return ready ? <Loading/> :  (
     /*
-      return 구문 안에서는 {슬래시 +  * 방식으로 주석
+      return 구문 안에서는 {슬래시 + * 방식으로 주석
     */
 
     <ScrollView style={styles.container}>
       <StatusBar style="light" />
-			 <Text style={styles.weather}>오늘의 날씨: {todayWeather + '°C ' + todayCondition} </Text>
-       <TouchableOpacity style={styles.introButton} onPress={()=>{navigation.navigate('Aboutpage')}}>
-        <Text style={styles.introText}>소개페이지</Text>
+      {/* <Text style={styles.title}>나만의 꿀팁</Text> */}
+      <Text style={styles.weather}>Today's weather: {weather.temp + '°C   ' + weather.condition} </Text>
+       <TouchableOpacity style={styles.aboutButton} onPress={()=>{navigation.navigate('Aboutpage')}}>
+          <Text style={styles.aboutButtonText}>About me</Text>
         </TouchableOpacity>
       <Image style={styles.mainImage} source={{uri:main}}/>
       <ScrollView style={styles.middleContainer} horizontal indicatorStyle={"white"}>
-       
       <TouchableOpacity style={styles.middleButtonAll} onPress={()=>{category('전체보기')}}><Text style={styles.middleButtonTextAll}>전체보기</Text></TouchableOpacity>
         <TouchableOpacity style={styles.middleButton01} onPress={()=>{category('생활')}}><Text style={styles.middleButtonText}>생활</Text></TouchableOpacity>
         <TouchableOpacity style={styles.middleButton02} onPress={()=>{category('재테크')}}><Text style={styles.middleButtonText}>재테크</Text></TouchableOpacity>
-        <TouchableOpacity style={styles.middleButton01} onPress={()=>{category('육아팁')}}><Text style={styles.middleButtonText}>육아팁</Text></TouchableOpacity>
         <TouchableOpacity style={styles.middleButton03} onPress={()=>{category('반려견')}}><Text style={styles.middleButtonText}>반려견</Text></TouchableOpacity>
+        <TouchableOpacity style={styles.middleButton01} onPress={()=>{category('육아팁')}}><Text style={styles.middleButtonText}>육아팁</Text></TouchableOpacity>
         <TouchableOpacity style={styles.middleButton04} onPress={()=>{navigation.navigate('Likepage')}}><Text style={styles.middleButtonText}>꿀팁 찜</Text></TouchableOpacity>
-
       </ScrollView>
       <View style={styles.cardContainer}>
          {/* 하나의 카드 영역을 나타내는 View */}
@@ -118,21 +145,6 @@ const styles = StyleSheet.create({
     marginTop:50,
     //왼쪽 공간으로 부터 이격
     marginLeft:20
-  },
-introButton:{
-  width:100,
-  height:35,
-  marginTop:10,
-  marginLeft:240,
-  borderRadius:6,
-  backgroundColor:'pink'
-  },
-  introText:{
-    padding:5,
-    textAlign:'center',
-    fontSize:17,
-    fontWeight:'400',
-    color:'white'
   },
 weather:{
     alignSelf:"flex-end",
@@ -213,6 +225,20 @@ weather:{
     marginTop:10,
     marginLeft:10
   },
+  aboutButton: {
+    backgroundColor:"pink",
+    width:100,
+    height:40,
+    borderRadius:10,
+    alignSelf:"flex-end",
+    marginRight:20,
+    marginTop:10
+  },
+  aboutButtonText: {
+    color:"#fff",
+    textAlign:"center",
+    marginTop:10
+  }
 
 
 });
