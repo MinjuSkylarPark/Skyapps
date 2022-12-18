@@ -1,0 +1,92 @@
+{
+  "tip": [
+    {
+      "idx": 0,
+      "category": "생활",
+      "title": "코딩잘하는법",
+      "image": "https://firebasestorage.googleapis.com/v0/b/skytips-5d4bd.appspot.com/o/codinggirl2.jpeg?alt=media&token=34ef94cf-da7c-46ea-834e-b76ab2bc8369",
+      "desc": "요즘 코딩잘하는 사람이 부쩍늘어난만큼 코딩을 잘하는 법에대한 질문이 늘어간다. 코딩은 외우는 것이아니라 이해하는 것이며 이론이아니라 실재로서 존재한다. 실수의 반복과 실습을 바탕으로 자체프로젝트를 직접제작해보는게 실력향상에 많은 도움이된다.",
+      "date": "2022.11.30"
+    },
+    {
+      "idx": 1,
+      "category": "육아팁",
+      "title": "우는아기 빠르게 달래기",
+      "image": "https://firebasestorage.googleapis.com/v0/b/skytips-5d4bd.appspot.com/o/freecry.jpeg?alt=media&token=8b8fd9c4-93eb-4806-a28c-b1e173c13deb",
+      "desc": "아기의 양팔을 가슴으로 모아주고 기저귀부분을 잡은다음 45도각도로 어르듯이 흔들어준다. 이는 아기가 엄마의 뱃속에 있을 때와 가장 유사한 환경이라고 느끼기 때문에 그렇다",
+      "date": "2022.11.30"
+    },
+    {
+      "idx": 2,
+      "category": "반려견",
+      "title": "반려견을 아이와 함께 키울 때",
+      "image": "https://firebasestorage.googleapis.com/v0/b/skytips-5d4bd.appspot.com/o/Westie_pups.jpg?alt=media&token=d04b90ac-dde5-4f5e-afa5-b17c666081c9",
+      "desc": "‘인간의 행복’을 위해 반려동물을 키우는 것에 대해 꾸준히 비판과 우려를 제기해온 그는 특히 ‘아이들의 정서’를 위해 반려견을 키우려 한다는 부모들에게 당부한다. “반려동물을 통해 아이들의 정서가 좋아진다면, 그것은 부모가 나와 생김새와 느낌, 말과 행동이 다른 동물을 아끼는 모습을 보기 때문입니다.” 인간의 뜻에 의해 인간과 함께 살게 된 생명을 좀 더 이해하고 행복하게 살 수 있도록 하는 것은 역시 인간의 노력에 달려 있다.",
+      "date": "2022.11.30"
+    },
+    {
+      "idx": 3,
+      "category": "생활",
+      "title": "이탈리안 피자 만드는법!",
+      "image": "https://firebasestorage.googleapis.com/v0/b/skytips-5d4bd.appspot.com/o/pizza.jpeg?alt=media&token=f16ca7a0-c096-46df-8adf-d64d28f55e2b",
+      "desc": "토마토 페이스트를 피자 도우위에 두껍게 올리고 그 위에 모짜렐라 치즈 4장을 올려놓고 바질로 장식하면 끝입니다. 간단하죠? 맛있는 피자는 기본이 최고입니다",
+      "date": "2022.11.30"
+    },
+    {
+      "idx": 4,
+      "category": "생활",
+      "title": "바나나를 싱싱하게 보관하기",
+      "image": "https://firebasestorage.googleapis.com/v0/b/skytips-5d4bd.appspot.com/o/Banananana.jpeg?alt=media&token=730b1b27-8f02-46bb-817f-409ea3217f72",
+      "desc": "바나나에 날파리가 꼬이거나 금방 익어버리는 것을 예방하기 위한 방법인데요. 바나나 양쪽 끝을 자른 후, 보관용 케이스나 비닐봉지에 묶어 밀봉합니다. 그리고 냉장고에 넣어주면 되는데요. 하루에 1~2개씩 꺼내서 싱싱하게 먹을 수 있습니다.",
+      "date": "2022.11.30"
+    },
+    {
+      "idx": 5,
+      "category": "생활",
+      "title": "셔츠에 묻은 볼펜 자국 없애기",
+      "image": "https://firebasestorage.googleapis.com/v0/b/skytips-5d4bd.appspot.com/o/shirt.jpeg?alt=media&token=2816cbbd-900b-4885-a075-d67749be7656",
+      "desc": "셔츠를 자주 입는 사람의 경우, 종종 볼펜 자국이 묻기 마련인데요. 이럴 경우에는 집에 있는 물파스로 가볍게 지울 수 있습니다. 옷 뒷부분을 키친타올로 받쳐 번지는 것을 방지한 후, 볼펜 자국 있는 부분을 물파스로 눌러주고, 키친타올로 닦아냅니다.",
+      "date": "2022.11.30"
+    },
+    {
+      "idx": 6,
+      "category": "재테크",
+      "title": "잠자는 내 돈을 찾아라",
+      "image": "https://firebasestorage.googleapis.com/v0/b/skytips-5d4bd.appspot.com/o/dollar.jpeg?alt=media&token=597152ca-977a-43c6-854a-4a937d451af2",
+      "desc": "‘새는 돈’에는 미처 몰랐던 카드 포인트, 휴면예금이나 환급금도 포함됩니다. 확실히 파악하지 못한 잠자는 돈을 찾아보고 자투리 돈들을 모으는 것도 중요합니다. 케이블방송, 위성방송 서비스를 이용하면서 중복 납부한 요금, 셋톱박스 보증금 등 돌려받지 않은 돈이 있는지 확인 해보세요. 또, 카드 포인트 통합 조회 서비스를 이용해 여러 개의 카드 포인트가 모두 얼마인지 체크해두는 것이 좋습니다. 보험해약 환급금, 휴면 보험금이나 휴면 예금을 찾아보고 돌려받는 일도 요즘에는 어렵지 않습니다.",
+      "date": "2022.11.30"
+    },
+    {
+      "idx": 7,
+      "category": "육아팁",
+      "title": "아기입맛 디저트집 찾는법!",
+      "image": "https://firebasestorage.googleapis.com/v0/b/skytips-5d4bd.appspot.com/o/Salad.jpeg?alt=media&token=6b7b48f2-55eb-4ee8-ad62-2ef268e6cd2e",
+      "desc": "sns에 혹하지말고 평소에 입맛이 까다롭기로 유명한 지인과 직접 다녀보는게 가장빠르고 확실합니다",
+      "date": "2022.11.30"
+    },
+    {
+      "idx": 8,
+      "category": "생활",
+      "title": "방전된 건전지 살리기",
+      "image": "https://storage.googleapis.com/sparta-image.appspot.com/lecture/battery.png",
+      "desc": "건전지를 다 사용하지 않아도 방전되면, 버리는 경우가 종종 있는데요. 건전지의 무게감이 느껴진다면, 드라이기를 활용해 방전된 건전지를 깨울 수 있습니다. 드라이기 열기를 10초~30초 정도 골고루 가해주면 되는데요. 건전지가 불필요하게 낭비되는 것을 막을 수 있습니다.",
+      "date": "2022.11.30"
+    },
+    {
+      "idx": 9,
+      "category": "반려견",
+      "title": "반려견에게 배변 교육 시킬 때",
+      "image": "https://storage.googleapis.com/sparta-image.appspot.com/lecture/puppy.png",
+      "desc": "우선, 배변패드를 순서대로 돌며 간식을 조금씩 떨어뜨려 놓는다. 2단계는 배변패드 앞에서 기다렸다 반려견이 스스로 올라오면 간식을 주어서 보상하고, 3단계는 “화장실 가자”나 “매트” 같은 명령어를 붙여 말한 뒤 배변패드에 올라오면 간식을 주는 것이다. 마지막 단계는 배변패드에 올라간 반려견이 대소변을 본 다음 간식을 줌으로써 이 장소가 즐거운 곳이라는 인식을 심어주는 것이다. 그리고 무엇보다 1, 2회 사용한 배변패드는 바로 갈아줘야 한다.",
+      "date": "2022.11.30"
+    },
+    {
+      "idx": 10,
+      "category": "반려견",
+      "title": "반려견이 주인과 떨어지는 것을 무서워 할 때",
+      "image": "https://storage.googleapis.com/sparta-image.appspot.com/lecture/puppy2.png",
+      "desc": "분리불안교육은 반려견에게 혼자 남는 법을 알려주기 위한 것이 아니라, 보호자가 ‘언제나 너에게 돌아올 거야’라고 알려주는 교육이다. 반려견과 5초 동안 떨어져 있다가 다시 문을 열고 들어가 손 냄새를 맡게 해주는 훈련을 하루 10번씩 7일 동안 반복하는 ‘5,10,7 법칙’을 통해 반려견의 마음을 편안하게 해줄 수 있다.",
+      "date": "2022.11.30"
+    }
+  ]
+}
