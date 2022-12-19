@@ -1,57 +1,66 @@
 import React,{useState,useEffect} from 'react';
-import { StyleSheet, Text, View, Image, ScrollView,TouchableOpacity,Alert,Share } from 'react-native';
+import { StyleSheet, Text, View, Image, ScrollView,TouchableOpacity,Alert,Share,Platform } from 'react-native';
 import * as Linking from 'expo-linking';
+import {firebase_db} from "../firebaseconfig"
+import * as Application from 'expo-application'
+const isIOS = Platform.OS === 'ios'
 
 export default function DetailPage({navigation,route}) {
-		
 
-//하단의 초기데이터가없으면 state상태값이없어서 에러가남 
-//초기데이터를 세팅해줌으로써 데이터가 없을때 일어날 에러를 방지함 
-        const [tip, setTip] = useState({
-        "idx": 0,
-        "category": "생활",
-        "title": "코딩잘하는법",
-        "image": "https://firebasestorage.googleapis.com/v0/b/skytips-5d4bd.appspot.com/o/codinggirl2.jpeg?alt=media&token=34ef94cf-da7c-46ea-834e-b76ab2bc8369",
-        "desc": "요즘 코딩잘하는 사람이 부쩍늘어난만큼 코딩을 잘하는 법에대한 질문이 늘어간다. 코딩은 외우는 것이아니라 이해하는 것이며 이론이아니라 실재로서 존재한다. 실수의 반복과 실습을 바탕으로 자체프로젝트를 직접제작해보는게 실력향상에 많은 도움이된다.",
-        "date": "2022.11.30"
+    const [tip, setTip] = useState({
+        "idx":9,
+        "category":"재테크",
+        "title":"렌탈 서비스 금액 비교해보기",
+        "image": "https://storage.googleapis.com/sparta-image.appspot.com/lecture/money1.png",
+        "desc":"요즘은 정수기, 공기 청정기, 자동차나 장난감 등 다양한 대여서비스가 활발합니다. 사는 것보다 경제적이라고 생각해 렌탈 서비스를 이용하는 분들이 늘어나고 있는데요. 다만, 이런 렌탈 서비스 이용이 하나둘 늘어나다 보면 그 금액은 겉잡을 수 없이 불어나게 됩니다. 특히, 렌탈 서비스는 빌려주는 물건의 관리비용까지 포함된 것이기에 생각만큼 저렴하지 않습니다. 직접 관리하며 사용할 수 있는 물건이 있는지 살펴보고, 렌탈 서비스 항목에서 제외해보세요. 렌탈 비용과 구매 비용, 관리 비용을 여러모로 비교해보고 고민해보는 것이 좋습니다. ",
+        "date":"2020.09.09"
     })
-
-    //navigation의 setOptions또한 useEffect에 사용됨
-    //카드팁을 터치했을 때 원래는 DetailPage였는데 클릭한뒤로는 카드팁이름으로 바뀜
+    
     useEffect(()=>{
         console.log(route)
-  //Card.js에서 navigation.navigate 함수를 쓸때 두번째 인자로 content를 넘겨줬죠?
-  //content는 딕셔너리 그 자체였으므로 route.params에 고대~로 남겨옵니다.
-  // 즉, route.params 는 content죠! 
-  //+파람은 매개변수 int x,int y x,y가 파람 
         navigation.setOptions({
-			//setOptions로 페이지 타이틀도 지정 가능하고
-            //타이틀을 이렇게 꺼낸이유는 페이지화된애들은 라우트/네비 둘다쓸수있는데
-            //넘겨받은애들은 전부 route.params안에 들어가있기 때문에 
             title:route.params.title,
-						//StackNavigator에서 작성했던 옵션을 다시 수정할 수도 있습니다. 
             headerStyle: {
                 backgroundColor: '#000',
                 shadowColor: "#000",
             },
             headerTintColor: "#fff",
         })
-        setTip(route.params)
+        //넘어온 데이터는 route.params에 들어 있습니다.
+        const { idx } = route.params;
+        firebase_db.ref('/tip/'+idx).once('value').then((snapshot) => {
+            let tip = snapshot.val();
+            setTip(tip)
+        });
     },[])
 
-    const popup = () => {
-        Alert.alert("Like it!")
-    }
+    const like = async () => {
+        let userUniqueId;
+        if(isIOS){
+        let iosId = await Application.getIosIdForVendorAsync();
+            userUniqueId = iosId
+        }else{
+            userUniqueId = await Application.androidId
+        }
 
-    const share = ()=>{
+        console.log(userUniqueId)
+        //set함수는 좋아요를 여러번쌓이게하지않고 고유한 아이디 하나만 화면으로 내보내는 고마운 함수다 
+        //firebase 레퍼런스함수는 데이터를 조회하는것뿐 아니라 구체적인 방을제시해줘서 방으로부터 데이터를 가져옴/저장도 가능하다
+	       firebase_db.ref('/like/'+userUniqueId+'/'+ tip.idx).set(tip,function(error){
+             console.log(error)
+             Alert.alert("Like it !")
+         });
+    }
+    
+    const share = () => {
         Share.share({
-            message:`${tip.title}\n\n ${tip.desc} \n\n ${tip.image}`
+            message:`${tip.title} \n\n ${tip.desc} \n\n ${tip.image}`,
         });
     }
-    const link = ()=>{
+
+    const link = () => {
         Linking.openURL("https://google.co.kr")
     }
-
     return ( 
         // ScrollView에서의 flex 숫자는 의미가 없습니다. 정확히 보여지는 화면을 몇등분 하지 않고
         // 화면에 넣은 컨텐츠를 모두 보여주려 스크롤 기능이 존재하기 때문입니다. 
@@ -62,11 +71,11 @@ export default function DetailPage({navigation,route}) {
                 <Text style={styles.title}>{tip.title}</Text>
                 <Text style={styles.desc}>{tip.desc}</Text>
                 <View style={styles.buttonGroup}>
-                <TouchableOpacity style={styles.button} onPress={()=>popup()}><Text style={styles.buttonText}>팁 찜하기</Text></TouchableOpacity>
-                <TouchableOpacity style={styles.button} onPress={()=>share()}><Text style={styles.buttonText}>팁 공유하기</Text></TouchableOpacity>
-                <TouchableOpacity style={styles.button} onPress={()=>link()}><Text style={styles.buttonText}> 외부 링크 </Text></TouchableOpacity>
+                    <TouchableOpacity style={styles.button} onPress={()=>like()}><Text style={styles.buttonText}>팁 찜하기</Text></TouchableOpacity>
+                    <TouchableOpacity style={styles.button} onPress={()=>share()}><Text style={styles.buttonText}>팁 공유하기</Text></TouchableOpacity>
+                    <TouchableOpacity style={styles.button} onPress={()=>link()}><Text style={styles.buttonText}>외부 링크</Text></TouchableOpacity>
                 </View>
-
+                
             </View>
             
         </ScrollView>
@@ -79,7 +88,6 @@ const styles = StyleSheet.create({
         backgroundColor:"#000"
     },
     image:{
-        // width:500,
         height:400,
         margin:10,
         marginTop:40,
@@ -88,8 +96,7 @@ const styles = StyleSheet.create({
     textContainer:{
         padding:20,
         justifyContent:'center',
-        alignItems:'center',
-
+        alignItems:'center'
     },
     title: {
         fontSize:20,
@@ -98,28 +105,23 @@ const styles = StyleSheet.create({
     },
     desc:{
         marginTop:10,
-        fontSize:14,
         color:"#eee"
     },
-    buttonGroup:{
-      flexDirection:'row',
-    //   marginLeft:10,
+    buttonGroup: {
+        flexDirection:"row",
     },
-
     button:{
-        width:100,
+        width:90,
         marginTop:20,
-        marginLeft:9,
-        marginRight:9,
+        marginRight:10,
+        marginLeft:10,
         padding:10,
         borderWidth:1,
         borderColor:'deeppink',
-        borderRadius:7,
-
+        borderRadius:7
     },
     buttonText:{
         color:'#fff',
-        textAlign:'center',
-        
+        textAlign:'center'
     }
 })

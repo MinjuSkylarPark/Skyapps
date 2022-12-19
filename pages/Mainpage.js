@@ -1,22 +1,21 @@
 import React,{useState,useEffect} from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView} from 'react-native';
 
-const main = 'https://firebasestorage.googleapis.com/v0/b/skytip-m.appspot.com/o/MyPhoto_1102.jpg?alt=media&token=81923a31-919e-4fa8-923e-6d6d661bdcd0'
+const main = 'https://firebasestorage.googleapis.com/v0/b/skytip-c.appspot.com/o/MyPhoto_1102.jpg?alt=media&token=696ed511-41a0-4423-9345-34ad7bd662a7'
 import data from '../data.json';
 import Card from '../Component/Card';
 import Loading from '../Component/Loading';
 import { StatusBar } from 'expo-status-bar';
 import * as Location from "expo-location";
 import axios from "axios"
+import { firebase_db } from '../firebaseconfig';
 
 export default function MainPage({navigation,route}) {
-  //useState 사용법
-	//[state,setState] 에서 state는 이 컴포넌트에서 관리될 상태 데이터를 담고 있는 변수
-  //setState는 state를 변경시킬때 사용해야하는 함수
+  
 
-  //모두 다 useState가 선물해줌
-  //useState()안에 전달되는 값은 state 초기값
+//꿀팁데이터들을 관리하는초기-기본useState
   const [state,setState] = useState([])
+//선택한 카테고리에맞는 문제데이터를 저장-관리하는 State()
   const [cateState,setCateState] = useState([])
   //날씨 데이터 상태관리 상태 생성!
   const [weather, setWeather] = useState({
@@ -29,20 +28,24 @@ export default function MainPage({navigation,route}) {
   const [ready,setReady] = useState(true)
 
   useEffect(()=>{
-    navigation.setOptions({
-      title:'Skys secret chamber'
-    })  
-		//뒤의 1000 숫자는 1초를 뜻함
-    //1초 뒤에 실행되는 코드들이 담겨 있는 함수
-    setTimeout(()=>{
-        //헤더의 타이틀 변경
+    //헤더의 타이틀 변경
+      navigation.setOptions({
+          title:'Skys secret chamber'
+      })
+      //이건 db가져오는 공식 팁방-데이터다가져와 + 매개변수 snapshot란 이름으로 받아옴
+      //firebase_db = 리얼타임데이터베이스
+      firebase_db.ref('/tip').once('value').then((snapshot) => {
+        console.log("Got a data from Firebase!!")
+        //'값만'꺼내오기위해 매개변수 snapshot+value라는이름을 넣어옴
+        let tip = snapshot.val();
+        
+        //상단의 useState cateState의변수를 firebase에서 tip으로 받아와
+        //하단의 setState/setCateState()에 tip변수로 넣어준다
+        setState(tip)
+        setCateState(tip)
         getLocation()
-        setState(data.tip)
-        setCateState(data.tip)
         setReady(false)
-    },1000)
- 
-    
+      });
   },[])
 
   const getLocation = async () => {
