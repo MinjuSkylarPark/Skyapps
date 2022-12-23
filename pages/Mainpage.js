@@ -8,8 +8,11 @@ import { StatusBar } from 'expo-status-bar';
 import * as Location from "expo-location";
 import axios from "axios"
 import { firebase_db } from '../firebaseconfig';
+import { BannerAd,BannerAdSize,TestIds } from 'react-native-google-mobile-ads';
 
 const main = 'https://firebasestorage.googleapis.com/v0/b/cookie-32b62.appspot.com/o/MyPhoto_1102.jpg?alt=media&token=08456988-6131-421a-a62e-536f4789df15'
+
+const adUnitId = __DEV__ ? TestIds.BANNER :'ca-app-pub-2689079457376389/8877264424'
 
 export default function MainPage({navigation,route}) {
   
@@ -35,18 +38,17 @@ export default function MainPage({navigation,route}) {
       })
       //이건 db가져오는 공식 팁방-데이터다가져와 + 매개변수 snapshot란 이름으로 받아옴
       //firebase_db = 리얼타임데이터베이스
-      firebase_db.ref('/tip').once('value').then((snapshot) => {
-        console.log("Got a data from Firebase!!")
-        //'값만'꺼내오기위해 매개변수 snapshot+value라는이름을 넣어옴
-        let tip = snapshot.val();
-        
-        //상단의 useState cateState의변수를 firebase에서 tip으로 받아와
-        //하단의 setState/setCateState()에 tip변수로 넣어준다
-        setState(tip)
-        setCateState(tip)
-        getLocation()
-        setReady(false)
-      });
+      setTimeout(()=>{
+        firebase_db.ref('/tip').once('value').then((snapshot)=>{
+          console.log("getting data from firebase")
+          let tip = snapshot.val();
+
+          setState(tip)
+          setCateState(tip)
+          getLocation()
+          setReady(false)
+        });
+      },1000)
   },[])
 
   const getLocation = async () => {
@@ -56,9 +58,9 @@ export default function MainPage({navigation,route}) {
       //자바스크립트 함수의 실행순서를 고정하기 위해 쓰는 async,await
       await Location.requestForegroundPermissionsAsync();
       const locationData= await Location.getCurrentPositionAsync();
-      console.log(locationData)
-      console.log(locationData['coords']['latitude'])
-      console.log(locationData['coords']['longitude'])
+      // console.log(locationData)
+      // console.log(locationData['coords']['latitude'])
+      // console.log(locationData['coords']['longitude'])
       const latitude = locationData['coords']['latitude']
       const longitude = locationData['coords']['longitude']
       const API_KEY = "cfc258c75e1da2149c33daffd07a911d";
@@ -66,7 +68,7 @@ export default function MainPage({navigation,route}) {
         `http://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}&units=metric`
       );
 
-      console.log(result)
+      // console.log(result)
       const temp = result.data.main.temp; 
       const condition = result.data.weather[0].main
       
@@ -105,10 +107,15 @@ export default function MainPage({navigation,route}) {
     /*
       return 구문 안에서는 {슬래시 + * 방식으로 주석
     */
-
+<View>
+{__DEV__ ? null : <BannerAd
+  unitId={adUnitId}
+  size={BannerAdSize.FULL_BANNER}
+  requestOptions={{requestNonPersonalizedAdsOnly:true,
+  }}
+/>}
     <ScrollView style={styles.container}>
       <StatusBar style="light" />
-      {/* <Text style={styles.title}>나만의 꿀팁</Text> */}
       <Text style={styles.weather}>Today's weather: {weather.temp + '°C' + weather.condition} </Text>
        <TouchableOpacity style={styles.aboutButton} onPress={()=>{navigation.navigate('Aboutpage')}}>
           <Text style={styles.aboutButtonText}>About me</Text>
@@ -132,7 +139,9 @@ export default function MainPage({navigation,route}) {
         
       </View>
    
-    </ScrollView>)
+    </ScrollView>
+</View>
+    )
 }
 
 const styles = StyleSheet.create({
