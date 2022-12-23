@@ -1,8 +1,10 @@
 import React,{useState, useEffect} from 'react';
-import {ScrollView, Text, StyleSheet, TouchableOpacity, Platform} from 'react-native';
+import {ScrollView,StyleSheet,Platform} from 'react-native';
 import LikeCard from '../Component/LikeCard';
+import Loading from '../Component/Loading';
 import * as Application from 'expo-application';
 import { firebase_db } from '../firebaseconfig';
+//기기에 고유한 유저아이디를 부여하는 변수 
 const isIOS = Platform.OS === 'ios';
 
 export default function LikePage({navigation,route}){
@@ -17,11 +19,14 @@ export default function LikePage({navigation,route}){
             title:'Likepage',
 
         })
+         //첫화면에서 바로 실행될함수니까 useEffect에 집어넣음
         getLike()
         
     },[])
-    //안될가능성도 염두하기 
+
+   
     const getLike = async () => {
+        //application에서 가져온 useruniqueId
         let userUniqueId;
         if(isIOS){
         let iosId = await Application.getIosIdForVendorAsync();
@@ -33,9 +38,11 @@ export default function LikePage({navigation,route}){
 	       firebase_db.ref('/like/'+userUniqueId).once('value').then((snapshot)=>{
             console.log("getting data from firebase")
             let tip = snapshot.val();
-            //tip이 0개를 초과해 존재할때만 화면을 다시그리기
+            let tip_list = Object.values(tip);
+            //tip이 0개를 초과해 찜데이터가 존재할때만 화면을 다시그리기
             if(tip && tip.length > 0){
-            setTip(tip)
+            setTip(tip_list)
+            //데이터가 없는 경우 로딩화면(빈화면)을 보여준다
             setReady(false)    
             }
             

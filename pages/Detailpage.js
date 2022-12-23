@@ -27,6 +27,7 @@ export default function DetailPage({navigation,route}) {
             headerTintColor: "#fff",
         })
         //넘어온 데이터는 route.params에 들어 있습니다.
+        //route.params에 꿀팁idx를 넣어서 넘겨줌
         const { idx } = route.params;
         firebase_db.ref('/tip/'+idx).once('value').then((snapshot) => {
             let tip = snapshot.val();

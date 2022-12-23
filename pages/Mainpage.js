@@ -1,7 +1,6 @@
 import React,{useState,useEffect} from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView} from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView,Alert} from 'react-native';
 
-const main = 'https://firebasestorage.googleapis.com/v0/b/skytip-c.appspot.com/o/MyPhoto_1102.jpg?alt=media&token=696ed511-41a0-4423-9345-34ad7bd662a7'
 import data from '../data.json';
 import Card from '../Component/Card';
 import Loading from '../Component/Loading';
@@ -9,6 +8,8 @@ import { StatusBar } from 'expo-status-bar';
 import * as Location from "expo-location";
 import axios from "axios"
 import { firebase_db } from '../firebaseconfig';
+
+const main = 'https://firebasestorage.googleapis.com/v0/b/cookie-32b62.appspot.com/o/MyPhoto_1102.jpg?alt=media&token=08456988-6131-421a-a62e-536f4789df15'
 
 export default function MainPage({navigation,route}) {
   
@@ -108,7 +109,7 @@ export default function MainPage({navigation,route}) {
     <ScrollView style={styles.container}>
       <StatusBar style="light" />
       {/* <Text style={styles.title}>나만의 꿀팁</Text> */}
-      <Text style={styles.weather}>Today's weather: {weather.temp + '°C   ' + weather.condition} </Text>
+      <Text style={styles.weather}>Today's weather: {weather.temp + '°C' + weather.condition} </Text>
        <TouchableOpacity style={styles.aboutButton} onPress={()=>{navigation.navigate('Aboutpage')}}>
           <Text style={styles.aboutButtonText}>About me</Text>
         </TouchableOpacity>

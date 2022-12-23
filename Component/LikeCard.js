@@ -2,6 +2,7 @@ import React from 'react';
 import {Alert,View, Image, Text, StyleSheet,TouchableOpacity,Platform} from 'react-native'
 import {firebase_db} from "../firebaseconfig"
 const isIOS = Platform.OS === 'ios';
+//userUniqueId를 생성하는 expo application 도구 
 import * as Application from 'expo-application';
 //MainPage로 부터 navigation 속성을 전달받아 Card 컴포넌트 안에서 사용
 export default function LikeCard({content,navigation,tip, setTip}){
@@ -9,7 +10,8 @@ export default function LikeCard({content,navigation,tip, setTip}){
     const detail = () => {
         navigation.navigate('DetailPage',{idx:content.idx})
     }
-
+    //cidx 카드 인덱스 순서를 cidx라는 이름으로 
+    //remove하는 법은 파이어베이스 공식문서에있는 내용을 참고
     const remove = async (cidx) => {
       let userUniqueId;
       if(isIOS){
@@ -20,6 +22,7 @@ export default function LikeCard({content,navigation,tip, setTip}){
       }
 
       console.log(userUniqueId)
+      //application을 통해 생성한 useruniqueId로 방을생성함
       firebase_db.ref('/like/'+userUniqueId+'/'+cidx).remove().then(function(){
         Alert.alert("삭제 완료");
    
