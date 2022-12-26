@@ -25,7 +25,8 @@
     "react-native-google-mobile-ads": "^8.2.2",
     "react-native-reanimated": "^2.13.0",
     "react-native-safe-area-context": "4.4.1",
-    "react-native-screens": "~3.18.0"
+    "react-native-screens": "~3.18.0",
+    "react-native-splash-screen": "^3.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"

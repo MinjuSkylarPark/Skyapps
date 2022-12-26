@@ -1,6 +1,5 @@
 import React,{useState,useEffect} from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView,Alert} from 'react-native';
-
 import data from '../data.json';
 import Card from '../Component/Card';
 import Loading from '../Component/Loading';
@@ -116,7 +115,7 @@ export default function MainPage({navigation,route}) {
 />}
     <ScrollView style={styles.container}>
       <StatusBar style="light" />
-      <Text style={styles.weather}>Today's weather: {weather.temp + '°C' + weather.condition} </Text>
+      <Text style={styles.weather}>Today's weather: {weather.temp + ' °C ' + weather.condition} </Text>
        <TouchableOpacity style={styles.aboutButton} onPress={()=>{navigation.navigate('Aboutpage')}}>
           <Text style={styles.aboutButtonText}>About me</Text>
         </TouchableOpacity>

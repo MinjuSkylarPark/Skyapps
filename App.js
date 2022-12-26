@@ -10,6 +10,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import StackNavigator from './Navigation/StackNavigator';
 import { MobileAds } from 'react-native-google-mobile-ads';
 import { useEffect } from 'react';
+import * as SplashScreen from 'expo-splash-screen';
 
 export default function App() {
 
